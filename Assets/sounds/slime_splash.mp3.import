@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/slime_splash.mp3-c74a42016f081c8c1d3ef011a9cc7463.mp3str"
+
+[deps]
+
+source_file="res://Assets/sounds/slime_splash.mp3"
+dest_files=[ "res://.import/slime_splash.mp3-c74a42016f081c8c1d3ef011a9cc7463.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0
