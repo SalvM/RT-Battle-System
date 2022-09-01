@@ -3,7 +3,6 @@ extends KinematicBody2D
 signal hero_damage(amount)
 signal health_changed(health)
 
-var isDead = false;
 var hp = 4;
 
 var movement = Vector2();
@@ -12,6 +11,7 @@ var speed = 32; # pixel per second
 var gravity = 0;
 var isAttacking = false;
 var heroInRange = false;
+var inCooldown = false;
 
 func move_character(delta):
 	velocity.x = -speed;
@@ -24,52 +24,61 @@ func refresh_hp():
 func _ready():
 	$AnimatedSprite.play("Idle");
 
-func _process(delta):
-	pass
+func die():
+	isAttacking = false;
+	$Vision/Collision.disabled = true;
+	$HurtBox/Collision.disabled = true;
+	$Collision.disabled = true;
+	$AnimatedSprite.play("Perish");
+	yield($AnimatedSprite, "animation_finished");
+	queue_free()
+
+func attack():
+	if inCooldown:
+		return;
+	isAttacking = true;
+	inCooldown = true;
+	$Timer.start(0.4);
+	$AnimatedSprite.play("Attack");
+	yield($AnimatedSprite, "animation_finished");
+	$Cooldown.start(1);
+	
+func damage(amount):
+	hp -= amount;
+	refresh_hp();
+	$SFX/Splash.play()
 	
 func _physics_process(delta):
-	if(!isDead && !isAttacking):
+	if(!isAttacking):
 		move_character(delta);
 
 func _on_Area2D_area_entered(area):
-	if(isDead): return;
 	if area.is_in_group("HeroAttacks"):
-		hp -= 1;
-		refresh_hp();
-		$SFX/Splash.play()
+		damage(1)
 		if hp == 0:
-			isAttacking = false;
-			isDead = true;
-			$Vision/Collision.disabled = true;
-			# $Attack/Collision.disabled = true;
-			$HurtBox/Collision.disabled = true;
-			$Collision.disabled = true;
-			$AnimatedSprite.play("Perish");
-			yield($AnimatedSprite, "animation_finished");
-			queue_free()
+			die()
 	return
 
-
 func _on_Vision_area_entered(area):
-	if(isAttacking || isDead): return;
 	if area.is_in_group("HeroHurtBox"):
-		heroInRange = true;
-		isAttacking = true;
-		$Timer.start(0.4);
-		$AnimatedSprite.play("Attack");
-		return # Replace with function body.
+		heroInRange = true
+		if(isAttacking): return
+		attack()
 
 func _on_Vision_area_exited(area):
 	if area.is_in_group('HeroHurtBox'):
 		heroInRange = false;
-
 
 func _on_AnimatedSprite_animation_finished():
 	if $AnimatedSprite.animation == "Attack":
 		isAttacking = false;
 		$AnimatedSprite.play("Idle");
 
-
 func _on_Timer_timeout():
 	if heroInRange:
 		emit_signal("hero_damage", 2);
+
+func _on_Cooldown_timeout():
+	inCooldown = false
+	if heroInRange:
+		attack()
