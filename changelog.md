@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.0.3] - 2022-09-03
+### ADDED
+- Hero2 with AnimationPlayer
+- Documentation
+### REMOVED
+- Hero from the Scene
 ## [0.0.2] - 2022-09-01
 ### ADDED
 - This changelog

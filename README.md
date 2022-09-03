@@ -1,4 +1,4 @@
-# RT Battle System v0.2
+# RT Battle System v0.0.3
 
 An horiziontal real time battle system inspired by old gen games.
 It will have a nice custom combo system.
@@ -8,10 +8,15 @@ It will have a nice custom combo system.
 A quick list of future features:
 - **Stamina system** - Stamina will generate while resting and will be consumed for each attack
 - **Combo System** - Combo take previous inputs into consideration as well. The game will be more strategic thanks to the combinations of combos that fit together.
+- **2.5D** - The sprites will move into a 3D environment
 
 # Changelog
 
 You can find the full changelog ![here](https://github.com/SalvM/RT-Battle-System/blob/main/changelog.md)
+
+# Documentation
+
+You can find the main logics in the documentation ![here](https://github.com/SalvM/RT-Battle-System/blob/main/documentation.md)
 # Gameplay Guide
 
 You can move with the directional arrows of the keyboard and attack with **X**.
