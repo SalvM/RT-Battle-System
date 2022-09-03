@@ -4,6 +4,7 @@ signal hero_damage(damage)
 signal health_changed(new_health)
 
 onready var animatedSprite = $AnimatedSprite
+onready var effects = $Effects
 onready var ColliderScript = $Colliders
 
 var movement = Vector2()
@@ -22,7 +23,7 @@ func health_in_percentage(value):
 
 func changeAnimation(type):
 	animatedSprite.play(type)
-	
+
 func changeAttackCollision(type):
 	$Attacks/Attack_1.disabled = true;
 	$Attacks/Attack_2.disabled = true;
@@ -34,8 +35,8 @@ func die():
 	isDead = true
 	$HurtBox/IdleColl.disabled = true
 	$HurtBox/CrouchedColl.disabled = true
-	$AnimatedSprite.play("Die")
-	yield($AnimatedSprite, "animation_finished")
+	animatedSprite.play("Die")
+	yield(animatedSprite, "animation_finished")
 
 func damage(amount):
 	_set_health(health - amount)
@@ -52,7 +53,7 @@ func _set_health(value):
 func flipHero():
 	isMovingLeft = !isMovingLeft;
 	scale.x = -scale.x
-	
+
 func move():
 	if Input.is_action_pressed("ui_left"):
 		if(!isMovingLeft):
@@ -88,12 +89,26 @@ func attack():
 		changeAnimation("Attack_1");
 		changeAttackCollision("Attack_1");
 
+func simpleCombo():
+	#changeAnimation("Attack_1")
+	#changeAttackCollision("Attack_1")
+	#yield($AnimatedSprite, "animation_finished")
+	animatedSprite.play("Attack_2")
+	effects.play("Slash")
+	#changeAttackCollision("Attack_2")
+	#yield($AnimatedSprite, "animation_finished")
+	yield(effects, "animation_finished")
+	$Effects.update()
+	
+
 func _physics_process(delta):
 	if isAttacking || isDead:
 		return
 	move()
 	if Input.is_action_just_pressed("Attack"):
 		attack()
+	elif Input.is_action_just_pressed("Combo"):
+		simpleCombo()
 	movement = move_and_slide(movement, up * delta);
 
 func _on_AnimatedSprite_animation_finished():

@@ -15,7 +15,7 @@ func _ready():
 func _on_health_updated(new_health):
 	health_bar.value = new_health
 	_assign_color(new_health)
-	
+
 func _assign_color(health):
 	var prev_tint = health_bar.get("custom_styles/fg").get_bg_color()
 	var new_tint = null
@@ -27,11 +27,14 @@ func _assign_color(health):
 		new_tint = healthy_color
 	update_tween.interpolate_method(health_bar.get("custom_styles/fg"), "set_bg_color", prev_tint, new_tint, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	update_tween.start()
-	
+
 func _on_max_health_updated(max_health):
 	health_bar.max_value = max_health;
 
-
 func _on_Hero_health_changed(new_health):
+	_on_health_updated(new_health)
+	pass # Replace with function body.
+
+func _on_Hero2_health_changed(new_health):
 	_on_health_updated(new_health)
 	pass # Replace with function body.
