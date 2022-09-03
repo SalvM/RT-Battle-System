@@ -1,0 +1,326 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://Assets/sprites/Warrior/SpriteSheet/Warrior_SheetnoEffect.png" type="Texture" id=1]
+[ext_resource path="res://Assets/sounds/swoosh_3.mp3" type="AudioStream" id=2]
+[ext_resource path="res://Scripts/Hero2.gd" type="Script" id=3]
+
+[sub_resource type="RectangleShape2D" id=12]
+extents = Vector2( 7.5, 18 )
+
+[sub_resource type="Animation" id=7]
+resource_name = "Attack_1"
+length = 0.9
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 14, 15, 16, 17, 18, 19, 20, 21, 22 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Attack/Attack_1:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "Idle" ],
+"method": "changeHurtBoxCollision"
+} ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("SFX/Swoosh:playing")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.4 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("SFX/Swoosh:pitch_scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.4 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.8 ]
+}
+
+[sub_resource type="Animation" id=8]
+resource_name = "Attack_2"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 22, 23, 24, 25 ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "Idle" ],
+"method": "changeHurtBoxCollision"
+} ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("SFX/Swoosh:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Attack/Attack_2:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.1, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("SFX/Swoosh:pitch_scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
+}
+
+[sub_resource type="Animation" id=10]
+resource_name = "Crouch"
+length = 0.7
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 64, 65, 66, 67 ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "Crouch" ],
+"method": "changeHurtBoxCollision"
+} ]
+}
+
+[sub_resource type="Animation" id=13]
+resource_name = "Dead"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 26, 27, 28, 29, 30, 31, 32, 33, 34, 35 ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "Idle"
+length = 1.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5 ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "Idle" ],
+"method": "changeHurtBoxCollision"
+} ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "Run"
+length = 0.8
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 6, 7, 8, 9, 10, 11, 12, 13 ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "Run" ],
+"method": "changeHurtBoxCollision"
+} ]
+}
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 25, 17 )
+
+[sub_resource type="RectangleShape2D" id=9]
+extents = Vector2( 11.6539, 29.182 )
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 7, 14.75 )
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 7, 13.7886 )
+
+[sub_resource type="RectangleShape2D" id=11]
+extents = Vector2( 8, 10 )
+
+[node name="Hero2" type="KinematicBody2D" groups=["Hero"]]
+script = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+offset = Vector2( 5, 0 )
+hframes = 6
+vframes = 17
+frame = 35
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2( -2.5, 3 )
+shape = SubResource( 12 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Attack_1 = SubResource( 7 )
+anims/Attack_2 = SubResource( 8 )
+anims/Crouch = SubResource( 10 )
+anims/Dead = SubResource( 13 )
+anims/Idle = SubResource( 3 )
+anims/Run = SubResource( 4 )
+
+[node name="Attack" type="Area2D" parent="." groups=["HeroAttacks"]]
+
+[node name="Attack_1" type="CollisionShape2D" parent="Attack"]
+position = Vector2( 3, -2 )
+shape = SubResource( 2 )
+disabled = true
+
+[node name="Attack_2" type="CollisionShape2D" parent="Attack"]
+position = Vector2( -0.965206, -11.6529 )
+rotation = -0.95295
+shape = SubResource( 9 )
+disabled = true
+
+[node name="HurtBox" type="Area2D" parent="." groups=["HeroHurtBox"]]
+visible = false
+
+[node name="Idle" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2( -3, 6.25 )
+shape = SubResource( 5 )
+disabled = true
+
+[node name="Run" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2( -3.75, 5.75 )
+rotation = 0.785398
+shape = SubResource( 6 )
+disabled = true
+
+[node name="Crouch" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2( -2, 11 )
+shape = SubResource( 11 )
+disabled = true
+
+[node name="SFX" type="Area2D" parent="."]
+
+[node name="Swoosh" type="AudioStreamPlayer2D" parent="SFX"]
+stream = ExtResource( 2 )
+volume_db = -2.0
+pitch_scale = 0.8
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

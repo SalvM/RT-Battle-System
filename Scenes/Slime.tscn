@@ -95,7 +95,7 @@ animations = [ {
 extents = Vector2( 13.25, 7.25 )
 
 [sub_resource type="RectangleShape2D" id=17]
-extents = Vector2( 4.875, 7.125 )
+extents = Vector2( 5, 7.125 )
 
 [sub_resource type="StyleBoxFlat" id=19]
 bg_color = Color( 1, 0, 0, 1 )
@@ -141,7 +141,7 @@ shape = SubResource( 12 )
 
 [node name="Collision" type="CollisionShape2D" parent="Vision"]
 light_mask = 0
-position = Vector2( -11.625, 4.25 )
+position = Vector2( -11.75, 4.25 )
 shape = SubResource( 17 )
 
 [node name="HpControl" type="Control" parent="."]
@@ -194,7 +194,7 @@ pitch_scale = 0.8
 
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="area_entered" from="HurtBox" to="." method="_on_Area2D_area_entered"]
-[connection signal="area_entered" from="Vision" to="." method="_on_Vision_area_entered"]
-[connection signal="area_exited" from="Vision" to="." method="_on_Vision_area_exited"]
+[connection signal="body_entered" from="Vision" to="." method="_on_Vision_body_entered"]
+[connection signal="body_exited" from="Vision" to="." method="_on_Vision_body_exited"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="timeout" from="Cooldown" to="." method="_on_Cooldown_timeout"]
