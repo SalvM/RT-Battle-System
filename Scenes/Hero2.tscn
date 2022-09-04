@@ -323,4 +323,9 @@ stream = ExtResource( 2 )
 volume_db = -2.0
 pitch_scale = 0.8
 
+[node name="StaminaTimer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
+[connection signal="timeout" from="StaminaTimer" to="." method="_on_StaminaTimer_timeout"]

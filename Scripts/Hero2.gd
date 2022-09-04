@@ -2,6 +2,8 @@ extends KinematicBody2D
 
 signal hero_damage(damage)
 signal health_changed(new_health)
+signal stamina_changed(new_stamina)
+
 
 onready var attack = $Attack
 onready var hurtBox = $HurtBox
@@ -19,9 +21,14 @@ var speed = 200
 
 export (float) var max_health = 20
 export (float) var health = 20 setget _set_health
+export (float) var max_stamina = 10
+export (float) var stamina = 10 setget _set_stamina
 
 func health_in_percentage(value):
 	return 100 / (max_health / value)
+
+func stamina_in_percentage(value):
+	return 100 / (max_stamina / value)
 
 func die():
 	isDead = true
@@ -32,6 +39,9 @@ func die():
 func damage(amount):
 	_set_health(health - amount)
 
+func consumeStamina(amount):
+	_set_stamina(stamina - amount)
+
 func _set_health(value):
 	var prev_health = health;
 	health = clamp(value, 0, max_health);
@@ -41,11 +51,20 @@ func _set_health(value):
 	elif health != prev_health:
 		emit_signal("health_changed", health_in_percentage(health))
 
+func _set_stamina(value):
+	var prev_stamina = stamina;
+	stamina = clamp(value, 0, max_stamina);
+	if stamina == 0:
+		emit_signal("stamina_changed", 0)
+	elif stamina != prev_stamina:
+		emit_signal("stamina_changed", stamina_in_percentage(stamina))
+
 func changeAnimation(type):
 	animationPlayer.play(type)
 
 func attack():
 	isAttacking = true
+	consumeStamina(2)
 	if Input.is_action_pressed("ui_up"):
 		changeAnimation("Attack_2")
 	else:
@@ -86,7 +105,7 @@ func move():
 func _physics_process(delta):
 	if isAttacking || isDead: return
 	move()
-	if Input.is_action_just_pressed("Attack"):
+	if Input.is_action_just_pressed("Attack") && stamina > 0:
 		movement.x = 0;
 		attack()
 	move_and_collide(movement * delta)
@@ -98,3 +117,6 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 
 func _on_Slime_hero_damage(amount):
 	damage(amount)
+
+func _on_StaminaTimer_timeout():
+	consumeStamina(-1.5)
