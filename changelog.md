@@ -1,6 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.0.4] - 2022-09-06
+### ADDED
+- Stamina system
+- Basic Combo system
+
+## CHANGED
+- Attack system
+- changeHurtBoxCollision to improve performance
+
 ## [0.0.3] - 2022-09-03
 ### ADDED
 - Hero2 with AnimationPlayer

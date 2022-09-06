@@ -1,4 +1,4 @@
-# RT Battle System v0.0.3
+# RT Battle System v0.0.4
 
 An horiziontal real time battle system inspired by old gen games.
 It will have a nice custom combo system.
@@ -6,8 +6,6 @@ It will have a nice custom combo system.
 # TODO for the next version
 
 A quick list of future features:
-- **Stamina system** - Stamina will generate while resting and will be consumed for each attack
-- **Combo System** - Combo take previous inputs into consideration as well. The game will be more strategic thanks to the combinations of combos that fit together.
 - **2.5D** - The sprites will move into a 3D environment
 
 # Changelog
@@ -23,4 +21,4 @@ You can move with the directional arrows of the keyboard and attack with **X**.
 
 # Screenshots
 
-![preview](https://i.imgur.com/P1dMJzJ.png)
+![preview](https://i.imgur.com/8pI1R9O.png)
