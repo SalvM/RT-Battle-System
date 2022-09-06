@@ -9,6 +9,7 @@ var velocity = Vector2(0, 0)
 var speed = 32; # pixel per second
 var gravity = 0
 var isAttacking = false
+var isDead = false
 var heroInRange = false
 var inCooldown = false
 
@@ -24,7 +25,9 @@ func _ready():
 	$AnimatedSprite.play("Idle")
 
 func die():
+	isDead = true
 	isAttacking = false
+	$AnimatedSprite.stop()
 	$Vision/Collision.disabled = true
 	$HurtBox/Collision.disabled = true
 	$Collision.disabled = true
@@ -33,7 +36,7 @@ func die():
 	queue_free()
 
 func attack():
-	if inCooldown:
+	if inCooldown || isDead:
 		return
 	isAttacking = true
 	inCooldown = true
@@ -48,7 +51,7 @@ func damage(amount):
 	$SFX/Splash.play()
 	
 func _physics_process(delta):
-	if(!isAttacking):
+	if(!isAttacking && !isDead):
 		move_character(delta)
 
 func _on_Area2D_area_entered(area):
@@ -75,7 +78,7 @@ func _on_Cooldown_timeout():
 func _on_Vision_body_entered(body):
 	if body.is_in_group("Hero"):
 		heroInRange = true
-		if(isAttacking): return
+		if(isAttacking || isDead): return
 		attack()
 
 func _on_Vision_body_exited(body):
