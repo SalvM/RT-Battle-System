@@ -6,8 +6,8 @@ signal health_changed(new_health)
 signal stamina_changed(new_stamina)
 
 # instances
-#onready var attack = $Attack
-#onready var hurtBox = $HurtBox
+onready var attack = $Attack
+onready var hurtBox = $HurtBox
 onready var animationPlayer = $AnimationPlayer
 onready var sprite = $Sprite3D
 onready var collision = $Collision
@@ -57,9 +57,17 @@ func damage(amount):
 func consumeStamina(amount):
 	_set_stamina(stamina - amount)
 
+func changeHurtBoxCollision(type):
+	if type == last_collision_box: return
+	last_collision_box = type
+	var box = hurtBox.get_node(type)
+	if !box: return
+	collision.shape = box.shape
+	collision.transform = box.transform
+
 func changeAnimation(type):
 	animationPlayer.play(type)
-	#changeHurtBoxCollision(type)
+	changeHurtBoxCollision(type)
 
 func die():
 	isDead = true
@@ -114,7 +122,6 @@ func move():
 	
 	if left_pressed and right_pressed:
 		velocity.x = 0
-		# changeAnimation('Idle')
 	elif left_pressed:
 		if(!isMovingLeft):
 			flipHero()
@@ -148,8 +155,49 @@ func move():
 	
 	move_and_slide(velocity)
 
+
+func useCombo(combo):
+	if combo.cost <= stamina:
+		print("Executing combo... ", combo.name)
+		animationPlayer.stop()
+		isAttacking = true
+		consumeStamina(combo.cost)
+		changeAnimation(combo.name)
+	else:
+		print("You need more ", combo.cost - stamina, " stamina to execute that combo") 
+
 func _physics_process(delta):
 	if isAttacking || isDead: return
 	move()
 	pass
 
+func _input(event):
+	if isAttacking || isDead: return
+	# Sign an input key only once
+	if event is InputEventKey:
+		if event.pressed and not event.echo:
+			# Temporarily stores the char from the input
+			var character = OS.get_scancode_string(event.scancode)
+			#if Combo.moveKeys.find(character) >= 0:
+
+			# Check if the character is valid for the combo
+			if Combo.inputKeys.find(character) >= 0:
+				wasInputMode = true
+				inputCooldown = timeTillNextInput
+				usedKeys += character
+				var comboToExecute = Combo.checkForWords(usedKeys)
+				if comboToExecute:
+					useCombo(Combo.fightCombos[comboToExecute]);
+
+					# It stores the last input to chain new combos
+					usedKeys = usedKeys[usedKeys.length() - 1]
+				elif canAttack():
+					attack(character)
+
+func _on_AnimationPlayer_animation_finished(anim_name):
+	if isAttacking:
+		isAttacking = false
+		changeAnimation("Idle")
+
+func _on_StaminaTimer_timeout():
+	consumeStamina(-1.5)
