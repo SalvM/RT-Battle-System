@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/yellow_slash.png-1815cae1eaead7f00e25239b7c6f82f6.stex"
+path="res://.import/Death.png-57824d9ff77c177978d7519b5323995b.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/effects/yellow_slash.png"
-dest_files=[ "res://.import/yellow_slash.png-1815cae1eaead7f00e25239b7c6f82f6.stex" ]
+source_file="res://Assets/sprites/Skeleton/Death.png"
+dest_files=[ "res://.import/Death.png-57824d9ff77c177978d7519b5323995b.stex" ]
 
 [params]
 

@@ -24,19 +24,19 @@ tracks/0/keys = {
 "values": [ 14, 15, 16, 17, 18, 19, 20, 21, 22 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Attack/Attack_1:disabled")
+tracks/1/path = NodePath("SFX/Swoosh:playing")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.5, 0.7 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0.4 ),
+"transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ true, false, true ]
+"values": [ true ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("SFX/Swoosh:playing")
+tracks/2/path = NodePath("SFX/Swoosh:pitch_scale")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -44,20 +44,20 @@ tracks/2/enabled = true
 tracks/2/keys = {
 "times": PoolRealArray( 0.4 ),
 "transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
+"update": 0,
+"values": [ 0.8 ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("SFX/Swoosh:pitch_scale")
+tracks/3/path = NodePath("Attack/Attack_1:disabled")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0.4 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 0.8 ]
+"times": PoolRealArray( 0.5, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
 }
 
 [sub_resource type="Animation" id=8]
@@ -88,28 +88,28 @@ tracks/1/keys = {
 "values": [ true ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Attack/Attack_2:disabled")
+tracks/2/path = NodePath("SFX/Swoosh:pitch_scale")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0.1, 0.3 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, true ]
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("SFX/Swoosh:pitch_scale")
+tracks/3/path = NodePath("Attack/Attack_2:disabled")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0.1 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 1.0 ]
+"times": PoolRealArray( 0.1, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
 }
 
 [sub_resource type="Animation" id=9]
@@ -317,7 +317,7 @@ tracks/10/keys = {
 [sub_resource type="BoxShape" id=14]
 extents = Vector3( 1.25, 0.75, 0.5 )
 
-[node name="Hero" type="KinematicBody"]
+[node name="Hero" type="KinematicBody" groups=["Hero"]]
 script = ExtResource( 4 )
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
@@ -335,7 +335,7 @@ frame = 25
 transform = Transform( 0.217391, 0, 0, 0, 0.217391, 0, 0, 0, 0.217391, 0, 0, 0 )
 
 [node name="Slash" type="Sprite3D" parent="Sprite3D/VFX"]
-transform = Transform( -3, 2.62268e-07, 0, -2.62268e-07, -3, 0, 0, 0, 3, 0.8, -0.3, 0.3 )
+transform = Transform( -3, 2.62268e-07, 0, -2.62268e-07, -3, 0, 0, 0, 3, 0.8, -0.3, 0.1 )
 visible = false
 flip_h = true
 opacity = 0.9
@@ -351,6 +351,7 @@ transform = Transform( 0.217391, 0, 0, 0, 0.204859, 0.0727455, 0, -0.0727455, 0.
 shape = SubResource( 6 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+method_call_mode = 1
 anims/Attack_1 = SubResource( 7 )
 anims/Attack_2 = SubResource( 8 )
 anims/Crouch = SubResource( 9 )
@@ -365,7 +366,8 @@ anims/Slashing = SubResource( 13 )
 stream = ExtResource( 2 )
 volume_db = -10.0
 
-[node name="HurtBox" type="Node" parent="."]
+[node name="HurtBox" type="Area" parent="."]
+visible = false
 
 [node name="Idle" type="CollisionShape" parent="HurtBox"]
 shape = SubResource( 6 )
@@ -373,17 +375,15 @@ shape = SubResource( 6 )
 [node name="Crouch" type="CollisionShape" parent="HurtBox"]
 shape = SubResource( 6 )
 
-[node name="Attack" type="Node" parent="."]
+[node name="Attack" type="Area" parent="." groups=["HeroAttacks"]]
 
 [node name="Attack_1" type="CollisionShape" parent="Attack"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.25, 0 )
-visible = false
 shape = SubResource( 14 )
 disabled = true
 
 [node name="Attack_2" type="CollisionShape" parent="Attack"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0 )
-visible = false
 shape = SubResource( 14 )
 disabled = true
 

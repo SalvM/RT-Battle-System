@@ -6,7 +6,7 @@ signal health_changed(new_health)
 signal stamina_changed(new_stamina)
 
 # instances
-onready var attack = $Attack
+onready var attacks = $Attack
 onready var hurtBox = $HurtBox
 onready var animationPlayer = $AnimationPlayer
 onready var sprite = $Sprite3D
@@ -16,7 +16,7 @@ onready var collision = $Collision
 var isAttacking = false
 var isMovingLeft = false
 var isDead = false
-var animationStatus = "Idle"
+var animationStatus = ""
 
 # stats
 export (float) var max_health = 20
@@ -66,8 +66,11 @@ func changeHurtBoxCollision(type):
 	collision.transform = box.transform
 
 func changeAnimation(type):
-	animationPlayer.play(type)
-	changeHurtBoxCollision(type)
+	if animationStatus == type: return
+	print(type)
+	animationStatus = type
+	animationPlayer.play(animationStatus)
+	# changeHurtBoxCollision(animationStatus)
 
 func die():
 	isDead = true
@@ -93,7 +96,7 @@ func _set_stamina(value):
 		emit_signal("stamina_changed", stamina_in_percentage(stamina))
 
 func canAttack():
-	return Input.is_action_just_pressed("Attack") && stamina >= basic_attack_cost
+	return !isAttacking && Input.is_action_just_pressed("Attack") && stamina >= basic_attack_cost
 
 # Executes the right animation for the character input, es: "J"
 func attack(character):
@@ -126,12 +129,10 @@ func move():
 		if(!isMovingLeft):
 			flipHero()
 		velocity.x = -SPEED
-		changeAnimation('Run')
 	elif right_pressed:
 		if(isMovingLeft):
 			flipHero()
 		velocity.x = SPEED
-		changeAnimation('Run')
 	else:
 		#velocity.x = lerp(velocity.x, 0, 0.5)
 		velocity.x = 0
@@ -140,31 +141,29 @@ func move():
 		velocity.z = 0
 	elif up_pressed:
 		velocity.z = -SPEED
-		changeAnimation('Run')
 	elif down_pressed:
 		velocity.z = SPEED
-		changeAnimation('Run')
 	else:
 		#velocity.z = lerp(velocity.z, 0, 0.5)
 		#velocity.y = lerp(velocity.y, -1, 0.5)
 		velocity.z = 0
 		velocity.y = 0
-	
+		
 	if velocity.x == 0 && velocity.z == 0:
-		changeAnimation('Idle')
-	
+		changeAnimation("Idle")
+	else:
+		changeAnimation("Run")
 	move_and_slide(velocity)
-
 
 func useCombo(combo):
 	if combo.cost <= stamina:
-		print("Executing combo... ", combo.name)
+		print("Executing combo: ", combo.name)
 		animationPlayer.stop()
 		isAttacking = true
 		consumeStamina(combo.cost)
 		changeAnimation(combo.name)
 	else:
-		print("You need more ", combo.cost - stamina, " stamina to execute that combo") 
+		print("You need more ", combo.cost - stamina, " stamina to execute that combo")
 
 func _physics_process(delta):
 	if isAttacking || isDead: return
@@ -187,17 +186,24 @@ func _input(event):
 				usedKeys += character
 				var comboToExecute = Combo.checkForWords(usedKeys)
 				if comboToExecute:
-					useCombo(Combo.fightCombos[comboToExecute]);
-
-					# It stores the last input to chain new combos
-					usedKeys = usedKeys[usedKeys.length() - 1]
+					var combo = Combo.fightCombos[comboToExecute]
+					if combo.cost <= stamina:
+						useCombo(combo)
+						# It stores only the last input to chain new combos
+						usedKeys = usedKeys[usedKeys.length() - 1]
+					else:
+						attack(character)
 				elif canAttack():
 					attack(character)
 
 func _on_AnimationPlayer_animation_finished(anim_name):
-	if isAttacking:
+	print('animation_finished', anim_name)
+	if "Attack" in anim_name || "Slashing" in anim_name:
 		isAttacking = false
 		changeAnimation("Idle")
 
 func _on_StaminaTimer_timeout():
 	consumeStamina(-1.5)
+
+func _on_Skeleton_hero_damage(amount):
+	damage(amount)
