@@ -1,0 +1,26 @@
+[gd_scene format=2]
+
+[node name="Combo_Displayer" type="Spatial"]
+transform = Transform( 9.88809, 0, -0.14919, 0, 10, 0, 1.4919, 0, 0.988809, 0, 0, 0 )
+
+[node name="Viewport" type="Viewport" parent="."]
+size = Vector2( 200, 40 )
+
+[node name="Panel" type="MarginContainer" parent="Viewport"]
+margin_right = 200.0
+margin_bottom = 40.0
+
+[node name="GridContainer" type="GridContainer" parent="Viewport/Panel"]
+margin_right = 200.0
+margin_bottom = 40.0
+
+[node name="Label" type="Label" parent="Viewport/Panel/GridContainer"]
+margin_right = 35.0
+margin_bottom = 31.0
+text = "Testo
+"
+
+[node name="CenterContainer" type="CenterContainer" parent="Viewport/Panel/GridContainer"]
+margin_top = 35.0
+margin_right = 35.0
+margin_bottom = 35.0

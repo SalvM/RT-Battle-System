@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/bone_bash.mp3-62bd42f81b99c7aa985e49dbe42706df.mp3str"
+
+[deps]
+
+source_file="res://Assets/sounds/bone_bash.mp3"
+dest_files=[ "res://.import/bone_bash.mp3-62bd42f81b99c7aa985e49dbe42706df.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

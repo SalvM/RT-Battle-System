@@ -6,6 +6,7 @@ signal hero_damage(amount)
 # instances
 onready var attack = $Attack
 onready var animationPlayer = $AnimationPlayer
+onready var bashSFX = $SFX/Bash
 
 # statuses
 var isAttacking = false
@@ -46,7 +47,7 @@ func attack():
 	$AttackCooldown.start(2)
 
 func move(velocity):
-	if isDead: return
+	if isDead || animationStatus == "Damaged": return
 	move_and_slide(velocity)
 	if velocity.x == 0 && velocity.z == 0:
 		changeAnimation("Idle")
@@ -70,6 +71,16 @@ func die():
 	$AttackRange.queue_free()
 	$Attack.queue_free()
 	changeAnimation("Perish")
+
+# handle damages
+func damage(amount):
+	health = health - amount
+	if health <= 0:
+		die()
+	else:
+		bashSFX.play()
+		changeAnimation("Damaged")
+		print("Damaged!")
 
 func _ready():
 	pass # Replace with function body.
@@ -104,10 +115,7 @@ func _on_AttackRange_body_exited(body):
 
 func _on_HurtBox_area_entered(area):
 	if area.is_in_group("HeroAttacks"):
-		health = health - 1
-		print('skeletron damaged')
-		if health <= 0:
-			die()
+		damage(1)
 
 func _on_AttackCooldown_timeout():
 	isCooldown = false
@@ -117,10 +125,14 @@ func _on_AttackCooldown_timeout():
 		follow()
 
 func _on_AnimationPlayer_animation_finished(anim_name):
-	if anim_name == "Attack":
-		isAttacking = false
-	elif anim_name == "Perish":
-		$Perish.start()
+	match anim_name:
+		"Attack":
+			isAttacking = false
+		"Damaged":
+			animationPlayer.play("Idle")
+		"Perish":
+			$Perish.start()
+	
 
 func _on_Perish_timeout():
 	queue_free()

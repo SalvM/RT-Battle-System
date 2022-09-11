@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Take Hit.png-8804d3b54cda04ebd7c4bfb4e96931e7.stex"
+path="res://.import/candelabrum_tall_5.png-27168a5e81d86a3a99039f1444d63932.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/sprites/Skeleton/Take Hit.png"
-dest_files=[ "res://.import/Take Hit.png-8804d3b54cda04ebd7c4bfb4e96931e7.stex" ]
+source_file="res://Assets/textures/candelabrum_tall/candelabrum_tall_5.png"
+dest_files=[ "res://.import/candelabrum_tall_5.png-27168a5e81d86a3a99039f1444d63932.stex" ]
 
 [params]
 
@@ -19,7 +19,7 @@ compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
-flags/repeat=0
+flags/repeat=true
 flags/filter=false
 flags/mipmaps=true
 flags/anisotropic=false

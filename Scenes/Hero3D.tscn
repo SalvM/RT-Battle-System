@@ -1,9 +1,10 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Assets/sprites/Warrior/SpriteSheet/Warrior_SheetnoEffect.png" type="Texture" id=1]
 [ext_resource path="res://Assets/sounds/swoosh_3.mp3" type="AudioStream" id=2]
 [ext_resource path="res://Assets/effects/yellow_slash.png" type="Texture" id=3]
 [ext_resource path="res://Scripts/Hero3d.gd" type="Script" id=4]
+[ext_resource path="res://Scenes/interfaces/Displayer.tscn" type="PackedScene" id=5]
 
 [sub_resource type="BoxShape" id=6]
 extents = Vector3( 0.5, 0.5, 0.25 )
@@ -320,6 +321,9 @@ extents = Vector3( 1.25, 0.75, 0.5 )
 [node name="Hero" type="KinematicBody" groups=["Hero"]]
 script = ExtResource( 4 )
 
+[node name="HealthBar3D" parent="." instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.035, -0.1 )
+
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform( 4.6, 0, 0, 0, 4.6, 0, 0, 0, 4.6, 0, 0, 0 )
 offset = Vector2( 8, 2 )
@@ -345,7 +349,7 @@ vframes = 5
 frame = 3
 
 [node name="Camera" type="Camera" parent="Sprite3D"]
-transform = Transform( 0.217391, 0, 0, 0, 0.204859, 0.0727455, 0, -0.0727455, 0.204859, 0, 0.193007, 0.860245 )
+transform = Transform( 0.217391, 0, 0, 0, 0.202738, 0.0784618, 0, -0.0784618, 0.202738, 0, 0.202046, 0.860245 )
 
 [node name="Collision" type="CollisionShape" parent="."]
 shape = SubResource( 6 )
@@ -390,6 +394,17 @@ disabled = true
 [node name="StaminaTimer" type="Timer" parent="."]
 wait_time = 2.0
 autostart = true
+
+[node name="Inputs" type="Control" parent="."]
+margin_right = 1240.0
+margin_bottom = 680.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Inputs"]
+margin_right = 40.0
+margin_bottom = 14.0
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="timeout" from="StaminaTimer" to="." method="_on_StaminaTimer_timeout"]

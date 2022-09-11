@@ -11,6 +11,8 @@ onready var hurtBox = $HurtBox
 onready var animationPlayer = $AnimationPlayer
 onready var sprite = $Sprite3D
 onready var collision = $Collision
+onready var healthBar = $HealthBar3D/Viewport/HealthBar
+onready var staminaBar = $HealthBar3D/Viewport2/StaminaBar
 
 # statuses
 var isAttacking = false
@@ -29,10 +31,9 @@ const basic_attack_cost = 2
 var last_collision_box = null
 
 # combo
-const timeTillNextInput = 0.2
+const timeTillNextInput = 0.4
 var inputCooldown = timeTillNextInput
 var usedKeys = ""
-var wasInputMode = false
 
 # movement in 3D space
 var velocity = Vector3(0, 0, 0)
@@ -52,10 +53,20 @@ func stamina_in_percentage(value):
 
 # the hero gets damages
 func damage(amount):
-	_set_health(health - amount)
+	var newValue = health - amount
+	var newPercentage = 0
+	_set_health(newValue)
+	if newValue > 0:
+		newPercentage = health_in_percentage(newValue)
+	healthBar.value = newPercentage
 
 func consumeStamina(amount):
-	_set_stamina(stamina - amount)
+	var newValue = stamina - amount
+	var newPercentage = 0
+	_set_stamina(newValue)
+	if newValue > 0:
+		newPercentage = stamina_in_percentage(newValue)
+	staminaBar.value = newPercentage
 
 func changeHurtBoxCollision(type):
 	if type == last_collision_box: return
@@ -67,7 +78,6 @@ func changeHurtBoxCollision(type):
 
 func changeAnimation(type):
 	if animationStatus == type: return
-	print(type)
 	animationStatus = type
 	animationPlayer.play(animationStatus)
 	# changeHurtBoxCollision(animationStatus)
@@ -96,7 +106,7 @@ func _set_stamina(value):
 		emit_signal("stamina_changed", stamina_in_percentage(stamina))
 
 func canAttack():
-	return !isAttacking && Input.is_action_just_pressed("Attack") && stamina >= basic_attack_cost
+	return !isAttacking && inputCooldown <= 0 && Input.is_action_just_pressed("Attack") && stamina >= basic_attack_cost
 
 # Executes the right animation for the character input, es: "J"
 func attack(character):
@@ -114,6 +124,9 @@ func flipHero():
 	sprite.offset.x = -sprite.offset.x
 	sprite.flip_h = !sprite.flip_h
 
+func updateInputsOnScreen():
+	$Inputs/Label.text = "Current combo chain: " + usedKeys
+
 func _ready():
 	pass
 
@@ -122,7 +135,7 @@ func move():
 	var right_pressed = Input.is_action_pressed("ui_right")
 	var up_pressed = Input.is_action_pressed("ui_up")
 	var down_pressed = Input.is_action_pressed("ui_down")
-	
+
 	if left_pressed and right_pressed:
 		velocity.x = 0
 	elif left_pressed:
@@ -170,34 +183,39 @@ func _physics_process(delta):
 	move()
 	pass
 
+func _process(delta):
+	if inputCooldown <= 0: return
+	inputCooldown -= delta
+
 func _input(event):
-	if isAttacking || isDead: return
+	if !canAttack() || isDead: return
 	# Sign an input key only once
 	if event is InputEventKey:
 		if event.pressed and not event.echo:
 			# Temporarily stores the char from the input
 			var character = OS.get_scancode_string(event.scancode)
-			#if Combo.moveKeys.find(character) >= 0:
-
-			# Check if the character is valid for the combo
+			
+			# Check if the character is valid for the attack
 			if Combo.inputKeys.find(character) >= 0:
-				wasInputMode = true
-				inputCooldown = timeTillNextInput
-				usedKeys += character
-				var comboToExecute = Combo.checkForWords(usedKeys)
-				if comboToExecute:
-					var combo = Combo.fightCombos[comboToExecute]
-					if combo.cost <= stamina:
-						useCombo(combo)
-						# It stores only the last input to chain new combos
-						usedKeys = usedKeys[usedKeys.length() - 1]
-					else:
-						attack(character)
-				elif canAttack():
+				var comboPattern = Combo.checkForWords(usedKeys)
+				var combo = false
+				if comboPattern:
+					combo = Combo.fightCombos[comboPattern]
+				var canExecuteCombo = combo && combo.cost <= stamina
+				if canAttack() || canExecuteCombo:
+					inputCooldown = timeTillNextInput
+					usedKeys += character
+				if canExecuteCombo:
+					useCombo(combo)
+					# It stores only the last input to chain new combos
+					usedKeys = usedKeys[usedKeys.length() - 1]
+				else:
+					if !canExecuteCombo && combo:
+						print("You need more ", combo.cost - stamina, " stamina to execute that combo")
 					attack(character)
+				updateInputsOnScreen()
 
 func _on_AnimationPlayer_animation_finished(anim_name):
-	print('animation_finished', anim_name)
 	if "Attack" in anim_name || "Slashing" in anim_name:
 		isAttacking = false
 		changeAnimation("Idle")

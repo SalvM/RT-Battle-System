@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/bone_crunch.mp3-830d9af973eae5409037b85bf9e0c1b0.mp3str"
+
+[deps]
+
+source_file="res://Assets/sounds/bone_crunch.mp3"
+dest_files=[ "res://.import/bone_crunch.mp3-830d9af973eae5409037b85bf9e0c1b0.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

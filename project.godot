@@ -11,7 +11,7 @@ config_version=4
 [application]
 
 config/name="RT Battle System"
-run/main_scene="res://Scenes/Main.tscn"
+run/main_scene="res://Scenes/FightScene.tscn"
 config/icon="res://icon.png"
 
 [autoload]
@@ -21,7 +21,7 @@ Combo="*res://Scripts/Combo.gd"
 [display]
 
 window/size/width=1240
-window/size/height=640
+window/size/height=680
 window/size/resizable=false
 
 [input]
