@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/yellow_slash.png-1815cae1eaead7f00e25239b7c6f82f6.stex"
+path="res://.import/candelabrum_tall_6.png-852cec077a05c7f0057a2d09c5380183.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/effects/yellow_slash.png"
-dest_files=[ "res://.import/yellow_slash.png-1815cae1eaead7f00e25239b7c6f82f6.stex" ]
+source_file="res://Assets/textures/candelabrum_tall/candelabrum_tall_6.png"
+dest_files=[ "res://.import/candelabrum_tall_6.png-852cec077a05c7f0057a2d09c5380183.stex" ]
 
 [params]
 

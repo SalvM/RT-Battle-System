@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/yellow_slash.png-1815cae1eaead7f00e25239b7c6f82f6.stex"
+path="res://.import/Idle.png-5bb4fa4d2da6141ae0adb879e43dad55.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/effects/yellow_slash.png"
-dest_files=[ "res://.import/yellow_slash.png-1815cae1eaead7f00e25239b7c6f82f6.stex" ]
+source_file="res://Assets/sprites/Skeleton/Idle.png"
+dest_files=[ "res://.import/Idle.png-5bb4fa4d2da6141ae0adb879e43dad55.stex" ]
 
 [params]
 

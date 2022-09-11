@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/adventurer-Sheet.png-9f522fa4574d1a413afe7df6674d1479.s3tc.stex"
-path.etc2="res://.import/adventurer-Sheet.png-9f522fa4574d1a413afe7df6674d1479.etc2.stex"
+path.s3tc="res://.import/floor.jpg-7b541f424d58e9cd0dd63414a826d1c1.s3tc.stex"
+path.etc2="res://.import/floor.jpg-7b541f424d58e9cd0dd63414a826d1c1.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Assets/sprites/adventurer-Sheet.png"
-dest_files=[ "res://.import/adventurer-Sheet.png-9f522fa4574d1a413afe7df6674d1479.s3tc.stex", "res://.import/adventurer-Sheet.png-9f522fa4574d1a413afe7df6674d1479.etc2.stex" ]
+source_file="res://Assets/textures/floor.jpg"
+dest_files=[ "res://.import/floor.jpg-7b541f424d58e9cd0dd63414a826d1c1.s3tc.stex", "res://.import/floor.jpg-7b541f424d58e9cd0dd63414a826d1c1.etc2.stex" ]
 
 [params]
 

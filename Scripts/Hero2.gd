@@ -87,7 +87,8 @@ func useCombo(combo):
 
 func canAttack():
 	return Input.is_action_just_pressed("Attack") && stamina >= basic_attack_cost
-	
+
+# Executes the right animation for the character input
 func attack(character):
 	isAttacking = true
 	consumeStamina(basic_attack_cost)
@@ -100,10 +101,6 @@ func attack(character):
 func flipHero():
 	isMovingLeft = !isMovingLeft;
 	scale.x = -scale.x
-
-func resetAttackCollision():
-	for child in attack.get_children():
-		child.disabled = true
 
 func changeHurtBoxCollision(type):
 	if type == last_collision_box: return
@@ -165,9 +162,6 @@ func _process(delta):
 func _physics_process(delta):
 	if isAttacking || isDead: return
 	move()
-	# if canAttack():
-		# movement.x = 0;
-		# attack()
 	move_and_collide(movement * delta)
 
 func _on_AnimationPlayer_animation_finished(anim_name):
