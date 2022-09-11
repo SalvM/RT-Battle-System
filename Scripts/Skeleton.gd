@@ -72,15 +72,14 @@ func die():
 	$Attack.queue_free()
 	changeAnimation("Perish")
 
-# handle damages
-func damage(amount):
+# handle enemy damages
+func hurt(amount):
 	health = health - amount
 	if health <= 0:
 		die()
 	else:
 		bashSFX.play()
 		changeAnimation("Damaged")
-		print("Damaged!")
 
 func _ready():
 	pass # Replace with function body.
@@ -113,10 +112,6 @@ func _on_Attack_body_entered(body):
 func _on_AttackRange_body_exited(body):
 	heroInRange = false
 
-func _on_HurtBox_area_entered(area):
-	if area.is_in_group("HeroAttacks"):
-		damage(1)
-
 func _on_AttackCooldown_timeout():
 	isCooldown = false
 	if heroInRange:
@@ -132,7 +127,6 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 			animationPlayer.play("Idle")
 		"Perish":
 			$Perish.start()
-	
 
 func _on_Perish_timeout():
 	queue_free()

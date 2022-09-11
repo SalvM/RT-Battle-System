@@ -48,11 +48,11 @@ __meta__ = {
 }
 
 [node name="CollisionShape" type="CollisionShape" parent="Walls"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.00159, -5.00362 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.00159, -2.39376 )
 shape = SubResource( 8 )
 
 [node name="CollisionShape2" type="CollisionShape" parent="Walls"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.00159, 5.99994 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.00159, 2.01311 )
 shape = SubResource( 8 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
@@ -80,21 +80,10 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.466, 1.863, 1.4 )
 
 [node name="Hero" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+max_health = 32.0
+health = 32.0
 
 [node name="Skeleton" parent="." instance=ExtResource( 4 )]
 transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 4, 7, 1, 0 )
-
-[node name="Control" type="Control" parent="."]
-visible = false
-margin_right = 1240.0
-margin_bottom = 680.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label" type="Label" parent="Control"]
-margin_right = 40.0
-margin_bottom = 14.0
-text = "Text to show"
 
 [connection signal="hero_damage" from="Skeleton" to="Hero" method="_on_Skeleton_hero_damage"]

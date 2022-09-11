@@ -31,7 +31,7 @@ const basic_attack_cost = 2
 var last_collision_box = null
 
 # combo
-const timeTillNextInput = 0.4
+const timeTillNextInput = 0.1
 var inputCooldown = timeTillNextInput
 var usedKeys = ""
 
@@ -202,7 +202,7 @@ func _input(event):
 				if comboPattern:
 					combo = Combo.fightCombos[comboPattern]
 				var canExecuteCombo = combo && combo.cost <= stamina
-				if canAttack() || canExecuteCombo:
+				if canAttack():
 					inputCooldown = timeTillNextInput
 					usedKeys += character
 				if canExecuteCombo:
@@ -225,3 +225,8 @@ func _on_StaminaTimer_timeout():
 
 func _on_Skeleton_hero_damage(amount):
 	damage(amount)
+
+func _on_Attack_body_entered(body):
+	print('attack >> ', body)
+	if body.has_method("hurt"):
+		body.hurt(1)
