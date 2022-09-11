@@ -385,6 +385,7 @@ frame = 3
 
 [node name="Camera" type="Camera" parent="Sprite3D"]
 transform = Transform( 0.217391, 0, 0, 0, 0.202738, 0.0784618, 0, -0.0784618, 0.202738, 0, 0.202046, 0.860245 )
+current = true
 
 [node name="Collision" type="CollisionShape" parent="."]
 shape = SubResource( 6 )

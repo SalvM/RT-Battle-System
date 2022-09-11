@@ -1,6 +1,18 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.1.0] - 2022-09-12
+### ADDED
+- 2.5D Scene
+- 3D Hero and Skeleton enemy
+- HUD with Health, Stamina and Inputs
+
+## CHANGED
+- Attack system
+
+## REMOVED
+- Old unused stuff
+
 ## [0.0.4] - 2022-09-06
 ### ADDED
 - Stamina system
